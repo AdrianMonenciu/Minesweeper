@@ -102,39 +102,26 @@ function checkSurroundingMines(r, c) {
     board[r][c].classList.add("tile-clicked");
     tilesClicked += 1;
     let minesFound = 0;
-    //top 3
-    minesFound += checkClickedTile(r-1, c-1);      //top left
-    minesFound += checkClickedTile(r-1, c);        //top 
-    minesFound += checkClickedTile(r-1, c+1);      //top right
-    //left and right
-    minesFound += checkClickedTile(r, c-1);        //left
-    minesFound += checkClickedTile(r, c+1);        //right
-    //bottom 3
-    minesFound += checkClickedTile(r+1, c-1);      //bottom left
-    minesFound += checkClickedTile(r+1, c);        //bottom 
-    minesFound += checkClickedTile(r+1, c+1);      //bottom right
+    for (let i = r - 1; i <= r + 1; ++i) {
+        for (let j = c - 1; j <= c + 1; ++j) {
+            minesFound += checkClickedTile(i, j);
+        }
+    }
     if (minesFound > 0) {
         board[r][c].innerText = minesFound;
         board[r][c].classList.add("x" + minesFound.toString());
     }
     else {
-        //top 3
-        checkSurroundingMines(r-1, c-1);    //top left
-        checkSurroundingMines(r-1, c);      //top
-        checkSurroundingMines(r-1, c+1);    //top right
-        //left and right
-        checkSurroundingMines(r, c-1);      //left
-        checkSurroundingMines(r, c+1);      //right
-        //bottom 3
-        checkSurroundingMines(r+1, c-1);    //bottom left
-        checkSurroundingMines(r+1, c);      //bottom
-        checkSurroundingMines(r+1, c+1);    //bottom right
+        for (let i = r - 1; i <= r + 1; ++i) {
+            for (let j = c - 1; j <= c + 1; ++j) {
+                checkSurroundingMines(i, j);
+            }
+        }
     }
     if (tilesClicked == rows * columns - minesCount) {
         document.getElementById("mines-count").innerText = "Cleared. You Won!";
         gameOver = true;
     }
-
 }
 
 function checkClickedTile(r, c) {
